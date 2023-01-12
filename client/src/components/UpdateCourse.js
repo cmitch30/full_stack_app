@@ -13,17 +13,18 @@ const UpdateCourse = ({ context }) => {
   const [materialsNeeded, setMaterialsNeeded] = useState("");
 
   useEffect(() => {
-    context.data.getCourse(id)
-      .then((res) => {
-        setCourse(res);
-        setTitle(res.title);
-        setDescription(res.description);
-        setCourse(res.estimatedTime);
-        setMaterialsNeeded(res.materialsNeeded);
+    context.data
+      .getCourse(id)
+      .then((data) => {
+        setCourse(data);
+        setTitle(data.title);
+        setDescription(data.description);
+        setEstimatedTime(data.estimatedTime);
+        setMaterialsNeeded(data.materialsNeeded);
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  }, []);
 
   const handleUpdate = async (e) => {
     e.preventDafault();
@@ -55,22 +56,6 @@ const UpdateCourse = ({ context }) => {
       });
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    if (e.target.name === "courseTitle") {
-      setTitle(e.target.value);
-    } else if (e.target.name === "courseDescription") {
-      setDescription(e.target.value);
-    } else if (e.target.name === "estimatedTime") {
-      setEstimatedTime(e.target.value);
-    } else if (e.target.name === "materialsNeeded") {
-      setMaterialsNeeded(e.target.value);
-    } else {
-      return;
-    }
-  };
-
-  
   const handleCancel = (e) => {
     e.preventDefault();
     navigate(`/courses/${id}`);
@@ -99,7 +84,7 @@ const UpdateCourse = ({ context }) => {
                 name="courseTitle"
                 type="text"
                 value={title}
-                onChange={handleChange}
+                onChange={(e) => setTitle(e.target.value)}
               />
 
               <p>
@@ -111,7 +96,7 @@ const UpdateCourse = ({ context }) => {
                 id="courseDescription"
                 name="courseDescription"
                 value={description}
-                onChange={handleChange}
+                onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
             <div>
@@ -121,7 +106,7 @@ const UpdateCourse = ({ context }) => {
                 name="estimatedTime"
                 type="text"
                 value={estimatedTime}
-                onChange={handleChange}
+                onChange={(e) => setEstimatedTime(e.target.value)}
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
@@ -129,7 +114,7 @@ const UpdateCourse = ({ context }) => {
                 id="materialsNeeded"
                 name="materialsNeeded"
                 value={materialsNeeded}
-                onChange={handleChange}
+                onChange={(e) => setMaterialsNeeded(e.target.value)}
               ></textarea>
             </div>
           </div>
@@ -145,4 +130,4 @@ const UpdateCourse = ({ context }) => {
   );
 };
 
-export default UpdateCourse
+export default UpdateCourse;

@@ -1,6 +1,4 @@
-import apiBaseUrl from "./config";
-import { Buffer } from 'buffer';
-
+import { Buffer } from "buffer";
 export default class Data {
   api(
     path,
@@ -9,7 +7,7 @@ export default class Data {
     requiresAuth = false,
     credentials = null
   ) {
-    const url = apiBaseUrl + path;
+    const url = `http://localhost:5000/api${path}`;
 
     const options = {
       method,
@@ -18,9 +16,13 @@ export default class Data {
       },
     };
 
+    // Check if auth is required
+
     if (body !== null) {
       options.body = JSON.stringify(body);
     }
+
+    // if true the user credentials will be encoded & set HTTP auth request header to the Basic Authentication type.
     if (requiresAuth) {
       const encodedCredentials = Buffer.from(
         `${credentials.username}:${credentials.password}`
@@ -30,31 +32,8 @@ export default class Data {
     return fetch(url, options);
   }
 
-
-  async getCourses() {
-    const response = await this.api(`/courses`, "GET", null, false, null);
-    if (response.status === 200) {
-      return response.json().then((data) => data);
-    } else {
-      throw new Error();
-    }
-  }
-
-  async getCourse(id) {
-    const response = await this.api(`/courses/${id}`, "GET", null, false, null);
-    if (response.status === 200) {
-      return response.json().then((data) => data);
-    }
-  }
-
-  async deleteCourse(id, credentials) {
-    const response = await this.api(`/courses/${id}`, "DELETE", null, true, {
-      username: credentials.emailAddress,
-      password: credentials.password,
-    });
-    return response.status;
-  }
-
+  
+  
   async getUser(username, password) {
     const response = await this.api(`/users`, "GET", null, true, {
       username,
@@ -81,6 +60,25 @@ export default class Data {
       throw new Error();
     }
   }
+  
+  async getCourses() {
+    const response = await this.api(`/courses`, "GET");
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    } else {
+      throw new Error();
+    }
+  }
+
+  async getCourse(id) {
+    const response = await this.api(`/courses/${id}`, "GET");
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    } else {
+      throw new Error()
+    }
+  }
+
 
   async createCourse(body, credentials) {
     const response = await this.api("/courses", "POST", body, true, {
@@ -93,20 +91,37 @@ export default class Data {
       return response.json().then((data) => {
         return data.errors;
       });
-    } 
+    } else {
+      throw new Error()
+    }
+  }
+  
+  async updateCourse(id, body, credentials) {
+    const response = await this.api(`/courses/${id}`, "PUT", body, true, {
+      username: credentials.emailAddress,
+      password: credentials.password,
+    });
+    if (response.status === 201) {
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then((data) => {
+        return data.errors;
+      });
+    }
   }
 
-  async updateCourse(id, body, credentials) {
-    const response = await this.api(`/courses/${id}`, "POST", body, true, {
-      username:credentials.emailAddress,
-      password:credentials.password
-    })
-      if (response.status === 201) {
-        return [];
-      } else if (response.status === 400) {
-        return response.json().then((data) => {
-          return data.errors;
-        });
-      }
+
+  async deleteCourse(id, credentials) {
+    const response = await this.api(`/courses/${id}`, "DELETE", null, true, {
+      username: credentials.emailAddress,
+      password: credentials.password,
+    });
+    if (response.status === 204) {
+      return []
+    } else if (response.status === 401) {
+      return null
+    } else {
+      throw new Error()
+    }
   }
 }

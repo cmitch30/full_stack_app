@@ -4,24 +4,22 @@ import { Link } from "react-router-dom";
 function Header(props) {
   const { context } = props;
   const authUser = context.authenticatedUser;
-  return (
-    <div className="wrap header--flex">
-      <h1 className="header--logo">
-        <Link to="/">Courses</Link>
-      </h1>
-      <nav>
-        {authUser ? (
-          <React.Fragment>
-            <ul className="header--signedin">
-              <li>Welcome, {authUser.firstName} {authUser.lastName}!</li>
 
+  return (
+    <header>
+      <div className="wrap header--flex">
+        <h1 className="header--logo">
+          <Link to="/"> Courses </Link>
+        </h1>
+        <nav>
+          {authUser ? ( // if user authenticated - sign out option exits
+            <ul className="header--signedin">
+              <li>{`Welcome, ${authUser.firstName} ${authUser.lastName}!`}</li>
               <li>
                 <Link to="/signout">Sign Out</Link>
               </li>
             </ul>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
+          ) : (
             <ul className="header--signedout">
               <li>
                 <Link to="/signup">Sign Up</Link>
@@ -30,10 +28,10 @@ function Header(props) {
                 <Link to="/signin">Sign In</Link>
               </li>
             </ul>
-          </React.Fragment>
-        )}
-      </nav>
-    </div>
+          )}
+        </nav>
+      </div>
+    </header>
   );
 }
 

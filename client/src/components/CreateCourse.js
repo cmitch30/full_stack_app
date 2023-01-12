@@ -1,59 +1,64 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const CreateCourse = ({context}) => {
-
-  //set state for course
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [estimatedTime, setEstimatedTime] = useState('')
-  const [materialsNeeded, setMaterialsNeeded] = useState('')
+const CreateCourse = ({ context }) => {
+  // set up for using state.
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [estimatedTime, seteEtimatedTime] = useState("");
+  const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [errors, setErrors] = useState([]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    e.preventDefault();
 
-const handleChange = (e) => {
-  e.preventDefault()
-if (e.target.name === 'courseTitle') {
-  setTitle(e.target.value)
-} else if (e.target.name === 'courseDescription') {
-  setDescription(e.target.value)
-} else if (e.target.name === 'estimatedTime') {
-  setEstimatedTime(e.target.value)
-} else if (e.target.name === 'materialsNeeded') {
-  setMaterialsNeeded(e.target.value)
-} else {
-  return
-}
-};
+    const name = e.target.name;
+    const value = e.target.value;
 
+    if (name === "courseTitle") {
+      setTitle(value);
+    } else if (name === "courseDescription") {
+      setDescription(value);
+    } else if (name === "estimatedTime") {
+      seteEtimatedTime(value);
+    } else if (name === "materialsNeeded") {
+      setMaterialsNeeded(value);
+    } else {
+      return;
+    }
+  };
 
-  const handleSubmit = async(e) => {
-    e.preventDefault()
+ const handleSubmit = async (e) => {
+   e.preventDefault();
 
-    const body = {
-      userId: context.authenticatedUser.id,
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      errors,
-    };
-
-    await context.data.createCourse( body, 
-      context.authenticatedUser.emailAddress,
-      context.authenticatedUser.password
-    )
-    .then((errors) => {
-      if (errors.length) {
-        setErrors(errors)
-      } else {
-        navigate('/')
-      }
-    })
-  }
-
+   const body = {
+     userId: context.authenticatedUser.id,
+     title,
+     description,
+     estimatedTime,
+     materialsNeeded,
+   };
+   await context.data
+     .createCourse(
+       body,
+       context.authenticatedUser.emailAddress,
+       context.authenticatedUser.password
+     )
+     .then((errors) => {
+       // set errors from response
+       if (errors.length) {
+         setErrors(errors);
+       } else {
+         navigate("/");
+       }
+     })
+     .catch((err) => {
+       console.error(err);
+       navigate("/"); // return home- index page/
+     });
+ };
   return (
     <main>
       <div className="wrap">
@@ -123,6 +128,6 @@ if (e.target.name === 'courseTitle') {
       </div>
     </main>
   );
-}
+};
 
-export default CreateCourse
+export default CreateCourse;

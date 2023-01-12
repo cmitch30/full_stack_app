@@ -10,12 +10,11 @@ const CourseDetail = ({context}) => {
 
   //get data from context
   useEffect(() => {
-    context.data
-      .getCourse(id)
-      .then((res) => setCourse(res))
-      .catch((err) => console.log(err));
+    context.data.getCourse(id).then((data) => {
+      setCourse(data);
+    });
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   // handle delete course
   const handleDelete = (e) => {
@@ -26,7 +25,7 @@ const CourseDetail = ({context}) => {
       password: context.authenticatedUser.password
     }).then(navigate('/'))
   }
- return (
+ return  (
    <main>
             <div className="actions--bar">
 
@@ -75,7 +74,7 @@ const CourseDetail = ({context}) => {
                 </form>
             </div>
         </main>
- )
+ ) 
 }
 
 export default CourseDetail
