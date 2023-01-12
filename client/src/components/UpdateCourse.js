@@ -13,8 +13,7 @@ const UpdateCourse = ({ context }) => {
   const [materialsNeeded, setMaterialsNeeded] = useState("");
 
   useEffect(() => {
-    context.data
-      .getCourse(id)
+    context.data.getCourse(id)
       .then((res) => {
         setCourse(res);
         setTitle(res.title);

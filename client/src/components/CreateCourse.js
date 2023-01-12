@@ -8,7 +8,7 @@ const CreateCourse = ({context}) => {
   const [description, setDescription] = useState('')
   const [estimatedTime, setEstimatedTime] = useState('')
   const [materialsNeeded, setMaterialsNeeded] = useState('')
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState([]);
 
   const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ if (e.target.name === 'courseTitle') {
       description,
       estimatedTime,
       materialsNeeded,
-      errors
+      errors,
     };
 
     await context.data.createCourse( body, 
@@ -47,7 +47,6 @@ if (e.target.name === 'courseTitle') {
     )
     .then((errors) => {
       if (errors.length) {
-        console.log(errors)
         setErrors(errors)
       } else {
         navigate('/')

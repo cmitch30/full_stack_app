@@ -13,7 +13,7 @@ function Header(props) {
         {authUser ? (
           <React.Fragment>
             <ul className="header--signedin">
-              <li>Welcome, {authUser.firstName}!</li>
+              <li>Welcome, {authUser.firstName} {authUser.lastName}!</li>
 
               <li>
                 <Link to="/signout">Sign Out</Link>
