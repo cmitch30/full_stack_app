@@ -1,50 +1,42 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function Header({ context }) {
-  const location = useLocation();
+export default class Header extends React.PureComponent {
+  render() {
+    const context = this.props
+    const authUser = context.authenticatedUser
 
-  return (
-    <header>
-      <div className="wrap header--flex">
-        <h1 className="header--logo">
-          <Link to={"/"}>Courses</Link>
-        </h1>
-        <nav className="header--signedout">
-          <ul>
-            <li>
-              {
-                /*
-              if user is authenticated ? display their name
-              : display sign up link and keep track on the page they are being sent from
-              */
-                context.authenticatedUser ? (
-                  `Welcome, ${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}!`
-                ) : (
-                  <Link to={`/signup`} state={{ from: location.pathname }}>
+    return (
+      <header>
+        <div className="wrap header--flex">
+          <h1 className="header--logo">
+            <Link to="/"> Courses </Link>
+          </h1>
+          <nav>
+            {authUser ? ( // if user authenticated - sign out option exits
+              <ul className="header--signedin">
+                <li>{`Welcome, ${authUser.firstName} ${authUser.lastName}!`}</li>
+                <li>
+                  <Link to="/signout">Sign Out</Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="header--signedout">
+                <li>
+                  <Link className="signup" to="/signup">
                     Sign Up
                   </Link>
-                )
-              }
-            </li>
-            <li>
-              {
-                /*
-              if user is authenticated ? display sign out link
-              : display sign in link and keep track on the page they are being sent from
-              */
-                context.authenticatedUser ? (
-                  <Link to={`/signout`}>Sign Out</Link>
-                ) : (
-                  <Link to={`/signin`} state={{ from: location.pathname }}>
+                </li>
+                <li>
+                  <Link className="signin" to="/signin">
                     Sign In
                   </Link>
-                )
-              }
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-  );
+                </li>
+              </ul>
+            )}
+          </nav>
+        </div>
+      </header>
+    );
+  }
 }

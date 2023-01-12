@@ -1,4 +1,4 @@
-import config from "./config";
+import apiBaseUrl from "./config";
 
 export default class Data {
   api(
@@ -8,7 +8,7 @@ export default class Data {
     requiresAuth = false,
     credentials = null
   ) {
-    const url = config.apiBaseUrl + path;
+    const url = apiBaseUrl + path;
 
     const options = {
       method,
@@ -28,6 +28,30 @@ export default class Data {
     }
 
     return fetch(url, options);
+  }
+
+  async getCourses() {
+    const response = await this.api(`/courses`, "GET", null, false, null);
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    } else {
+      throw new Error();
+    }
+  }
+
+  async getCourse(id) {
+    const response = await this.api(`/courses/${id}`, "GET", null, false, null);
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    }
+  }
+
+  async deleteCourse(id, credentials) {
+    const response = await this.api(`/courses/${id}`, "DELETE", null, true, {
+      username: credentials.emailAddress,
+      password: credentials.password,
+    });
+    return response.status;
   }
 
   async getUser(username, password) {
@@ -55,5 +79,33 @@ export default class Data {
     } else {
       throw new Error();
     }
+  }
+
+  async createCourse(body, credentials) {
+    const response = await this.api("/courses", "POST", body, true, {
+      username: credentials.emailAddress,
+      password: credentials.password,
+    });
+    if (response.status === 201) {
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then((data) => {
+        return data.errors;
+      });
+    }
+  }
+
+  async updateCourse(id, body, credentials) {
+    const response = await this.api(`/courses/${id}`, "POST", body, true, {
+      username:credentials.emailAddress,
+      password:credentials.password
+    })
+      if (response.status === 201) {
+        return [];
+      } else if (response.status === 400) {
+        return response.json().then((data) => {
+          return data.errors;
+        });
+      }
   }
 }
