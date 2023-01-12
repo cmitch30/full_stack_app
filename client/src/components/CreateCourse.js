@@ -29,7 +29,7 @@ if (e.target.name === 'courseTitle') {
 };
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
 
     const body = {
@@ -41,7 +41,7 @@ if (e.target.name === 'courseTitle') {
       errors
     };
 
-    context.data.createCourse( body, 
+    await context.data.createCourse( body, 
       context.authenticatedUser.emailAddress,
       context.authenticatedUser.password
     )

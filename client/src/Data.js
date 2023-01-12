@@ -1,4 +1,5 @@
 import apiBaseUrl from "./config";
+import { Buffer } from 'buffer';
 
 export default class Data {
   api(
@@ -21,14 +22,14 @@ export default class Data {
       options.body = JSON.stringify(body);
     }
     if (requiresAuth) {
-      const encodedCredentials = btoa(
+      const encodedCredentials = Buffer.from(
         `${credentials.username}:${credentials.password}`
-      );
+      ).toString("base64");
       options.headers["Authorization"] = `Basic ${encodedCredentials}`;
     }
-
     return fetch(url, options);
   }
+
 
   async getCourses() {
     const response = await this.api(`/courses`, "GET", null, false, null);
@@ -92,7 +93,7 @@ export default class Data {
       return response.json().then((data) => {
         return data.errors;
       });
-    }
+    } 
   }
 
   async updateCourse(id, body, credentials) {
