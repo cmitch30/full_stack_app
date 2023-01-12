@@ -8,7 +8,7 @@ const UpdateCourse = ({ context }) => {
   const [errors, setErrors] = useState([]);
   const [course, setCourse] = useState("");
   const [title, setTitle] = useState("");
-  const [descripition, setDescription] = useState("");
+  const [description, setDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
 
@@ -18,7 +18,7 @@ const UpdateCourse = ({ context }) => {
       .then((res) => {
         setCourse(res);
         setTitle(res.title);
-        setDescription(res.descripition);
+        setDescription(res.description);
         setCourse(res.estimatedTime);
         setMaterialsNeeded(res.materialsNeeded);
       })
@@ -31,7 +31,7 @@ const UpdateCourse = ({ context }) => {
     //set course object
     const body = {
       title,
-      descripition,
+      description,
       estimatedTime,
       materialsNeeded,
     };
@@ -145,3 +145,5 @@ const UpdateCourse = ({ context }) => {
     </main>
   );
 };
+
+export default UpdateCourse

@@ -18,10 +18,10 @@ const CourseDetail = ({context}) => {
   }, [])
 
   // handle delete course
-  const handleDelete = async(e) => {
+  const handleDelete = (e) => {
     e.preventDefault()
 
-    await context.data.deleteCourse(id, {
+    context.data.deleteCourse(id, {
       emailAddress: context.authenticatedUser.emailAddress,
       password: context.authenticatedUser.password
     }).then(navigate('/'))

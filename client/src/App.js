@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Courses from "./components/Courses";
 import Header from "./components/Header";
@@ -20,41 +20,36 @@ const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 const HeaderWithContext = withContext(Header);
 const UserSignOutWithContext = withContext(UserSignOut);
-const PrivateRouteWithContext = withContext(PrivateRoutes)
 
 const App = () => {
   return (
-    <React.Fragment>
-      <HeaderWithContext />
-
-      <Routes>
-        <Route
-          path="courses/create"
-          element={
-            <PrivateRouteWithContext>
-              <CreateCourseWithContext />
-            </PrivateRouteWithContext>
-          }
-        />
-
-        <Route
-          path="courses/:id/update"
-          element={
-            <PrivateRouteWithContext>
-              <UpdateCourseWithContext />
-            </PrivateRouteWithContext>
-          }
-        />
-
-        <Route path="/" element={<CoursesWithContext />} />
-        <Route path="/signin" element={<UserSignInWithContext />} />
-        <Route path="/signup" element={<UserSignUpWithContext />} />
-        <Route path="/signout" element={<UserSignOutWithContext />} />
-        <Route path="courses/:id" element={<CourseDetailWithContext />} />
-      </Routes>
-    </React.Fragment>
+    <Router>
+      <header>
+        <HeaderWithContext />
+      </header>
+      <main>
+        {
+          <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route
+                path="/courses/create"
+                element={<CreateCourseWithContext />}
+              />
+              <Route
+                path="/courses/:id/update"
+                element={<UpdateCourseWithContext />}
+              />
+            </Route>
+            <Route path="/" element={<CoursesWithContext />} />
+            <Route path="/courses/:id" element={<CourseDetailWithContext />} />
+            <Route path="/signin" element={<UserSignInWithContext />} />
+            <Route path="/signup" element={<UserSignUpWithContext />} />
+            <Route path="/signout" element={<UserSignOutWithContext />} />
+          </Routes>
+        }
+      </main>
+    </Router>
   );
 };
-
 
 export default App;

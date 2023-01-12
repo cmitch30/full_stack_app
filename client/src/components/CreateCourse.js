@@ -29,7 +29,7 @@ if (e.target.name === 'courseTitle') {
 };
 
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
 
     const body = {
@@ -37,14 +37,17 @@ if (e.target.name === 'courseTitle') {
       title,
       description,
       estimatedTime,
-      materialsNeeded
-    }
+      materialsNeeded,
+      errors
+    };
 
-    await context.data.createCourse( body, 
+    context.data.createCourse( body, 
       context.authenticatedUser.emailAddress,
       context.authenticatedUser.password
-    ).then((errors) => {
+    )
+    .then((errors) => {
       if (errors.length) {
+        console.log(errors)
         setErrors(errors)
       } else {
         navigate('/')

@@ -8,11 +8,7 @@ export default function UserSignIn({ context }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  /*
-    on form submit, send a post request to api
-    if 500 is returned, send user to /error
-    else send user to where they came from if it exists else /
-  */
+
   const handleSubmit = (e) => {
     e.preventDefault();
     context.actions.signIn(username, password).then((res) => {
