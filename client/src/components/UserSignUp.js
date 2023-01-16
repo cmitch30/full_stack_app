@@ -12,7 +12,7 @@ const UserSignUp = ({ context }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
+    //create an object of user
     const user = {
       firstName:firstName.current.value,
       lastName:lastName.current.value,

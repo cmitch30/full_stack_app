@@ -5,7 +5,7 @@ export default function Courses({ context }) {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate()
 
-
+ //retrieve list of courses from api
   useEffect(() => {
     context.data.getCourses()
     .then((res) => setCourses(res))

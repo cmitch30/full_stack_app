@@ -27,7 +27,7 @@ const UpdateCourse = ({context}) => {
    // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
 
-     const handleUpdate = async (e) => {
+     const handleUpdate =  (e) => {
        e.preventDefault();
 
        const body = {
@@ -36,7 +36,7 @@ const UpdateCourse = ({context}) => {
          estimatedTime,
          materialsNeeded,
        };
-       await context.data
+        context.data
          .updateCourse(
            id,
            body,
@@ -72,7 +72,7 @@ const UpdateCourse = ({context}) => {
       } else if (name === "estimatedTime") {
         setEstimatedTime(value);
       } else if (name === "materialsNeeded") {
-        console.log(value)
+        // console.log(value)
         setMaterialsNeeded(value);
       } else {
         return;

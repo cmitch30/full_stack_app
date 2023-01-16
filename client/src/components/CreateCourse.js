@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CreateCourse = ({ context }) => {
-  // set up for using state.
+  // set up course state.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [estimatedTime, seteEtimatedTime] = useState("");
@@ -32,7 +32,7 @@ const CreateCourse = ({ context }) => {
 
  const handleSubmit = async (e) => {
    e.preventDefault();
-
+// create course body
    const body = {
      userId: context.authenticatedUser.id,
      title,
@@ -56,7 +56,7 @@ const CreateCourse = ({ context }) => {
      })
      .catch((err) => {
        console.error(err);
-       navigate("/"); // return home- index page/
+       navigate("/"); // return to home page
      });
  };
   return (

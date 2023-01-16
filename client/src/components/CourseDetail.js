@@ -8,7 +8,7 @@ const CourseDetail = ({context}) => {
   const {id} = useParams();
   const navigate = useNavigate()
 
-  //get data from context
+  //get course data from context
   useEffect(() => {
     context.data.getCourse(id).then((data) => {
       setCourse(data);
