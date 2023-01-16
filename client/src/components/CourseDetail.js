@@ -20,10 +20,10 @@ const CourseDetail = ({context}) => {
   const handleDelete = (e) => {
     e.preventDefault()
 
-    context.data.deleteCourse(id, {
-      emailAddress: context.authenticatedUser.emailAddress,
-      password: context.authenticatedUser.password
-    }).then(navigate('/'))
+    context.data.deleteCourse(id, 
+      context.authenticatedUser.emailAddress,
+      context.authenticatedUser.password
+    ).then(navigate('/'))
   }
  return  (
    <main>
@@ -55,7 +55,7 @@ const CourseDetail = ({context}) => {
                         <div>
                             <h3 className="course--detail--title">Course</h3>
                             <h4 className="course--name">{course.title}</h4>
-                            <p>By {course.user?.firstName} {course.user?.lastName}</p>
+                            <p>By {course.user.firstName} {course.user.lastName}</p>
 
                             <ReactMarkdown children={course.description}/>
                         </div>

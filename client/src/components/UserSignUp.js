@@ -25,7 +25,7 @@ const UserSignUp = ({ context }) => {
       if (errors.length) {
         setErrors(errors)
       } else {
-        context.actions.signIn(emailAddress, password).then(() => {
+        context.actions.signIn(emailAddress.current.value, password.current.value).then(() => {
           navigate('/')
         })
       }

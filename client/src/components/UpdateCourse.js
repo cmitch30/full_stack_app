@@ -1,65 +1,87 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const UpdateCourse = ({ context }) => {
-  const navigate = useNavigate();
-  const { id } = useParams();
+const UpdateCourse = ({context}) => {
 
-  const [errors, setErrors] = useState([]);
-  const [course, setCourse] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [estimatedTime, setEstimatedTime] = useState("");
-  const [materialsNeeded, setMaterialsNeeded] = useState("");
+ const navigate = useNavigate()
+ const {id} = useParams()
+ const [course, setCourse] = useState([])
+ const [title, setTitle] = useState('')
+ const [description, setDescription] = useState('')
+ const [estimatedTime, setEstimatedTime] = useState("");
+ const [materialsNeeded, setMaterialsNeeded] = useState('')
+ const [errors, setErrors] = useState([])
 
-  useEffect(() => {
-    context.data
-      .getCourse(id)
-      .then((data) => {
-        setCourse(data);
-        setTitle(data.title);
-        setDescription(data.description);
-        setEstimatedTime(data.estimatedTime);
-        setMaterialsNeeded(data.materialsNeeded);
-      })
-      .catch((err) => console.log(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+ useEffect(() => {
+   context.data
+     .getCourse(id)
+     .then((data) => {
+      console.log(data)
+       setCourse(data);
+       setTitle(data.title);
+       setDescription(data.description);
+       setEstimatedTime(data.estimatedTime);
+       setMaterialsNeeded(data.materialsNeeded);
+     })
+     .catch((err) => console.log(err));
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, []);
 
-  const handleUpdate = async (e) => {
-    e.preventDafault();
-    //set course object
-    const body = {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
+     const handleUpdate = async (e) => {
+       e.preventDefault();
+
+       const body = {
+         title,
+         description,
+         estimatedTime,
+         materialsNeeded,
+       };
+       await context.data
+         .updateCourse(
+           id,
+           body,
+           context.authenticatedUser.emailAddress,
+           context.authenticatedUser.password
+         )
+         .then((errors) => {
+           if (errors.length) {
+             setErrors(errors);
+           } else {
+             navigate("/");
+           }
+         })
+         .catch((err) => {
+           console.log(err);
+           navigate("/");
+         });
+     };
+
+
+
+ 
+    const handleChange = (e) => {
+      e.preventDefault();
+
+      const name = e.target.name;
+      const value = e.target.value;
+
+      if (name === "courseTitle") {
+        setTitle(value);
+      } else if (name === "courseDescription") {
+        setDescription(value);
+      } else if (name === "estimatedTime") {
+        setEstimatedTime(value);
+      } else if (name === "materialsNeeded") {
+        setMaterialsNeeded(value);
+      } else {
+        return;
+      }
     };
 
-    await context.data
-      .updateCourse(
-        id,
-        body,
-        context.authenticatedUser.emailAddress,
-        context.authenticatedUser.password
-      )
-      .then((errors) => {
-        if (errors.length) {
-          setErrors(errors);
-        } else {
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/");
-      });
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-    navigate(`/courses/${id}`);
-  };
+      const handleCancel = (e) => {
+        e.preventDefault();
+        navigate(`/courses/${id}`);
+      };
 
   return (
     <main>
@@ -84,7 +106,7 @@ const UpdateCourse = ({ context }) => {
                 name="courseTitle"
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={handleChange}
               />
 
               <p>
@@ -96,7 +118,7 @@ const UpdateCourse = ({ context }) => {
                 id="courseDescription"
                 name="courseDescription"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={handleChange}
               ></textarea>
             </div>
             <div>
@@ -106,7 +128,7 @@ const UpdateCourse = ({ context }) => {
                 name="estimatedTime"
                 type="text"
                 value={estimatedTime}
-                onChange={(e) => setEstimatedTime(e.target.value)}
+                onChange={handleChange}
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
@@ -114,7 +136,7 @@ const UpdateCourse = ({ context }) => {
                 id="materialsNeeded"
                 name="materialsNeeded"
                 value={materialsNeeded}
-                onChange={(e) => setMaterialsNeeded(e.target.value)}
+                onChange={handleChange}
               ></textarea>
             </div>
           </div>
