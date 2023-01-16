@@ -8,7 +8,7 @@ const UpdateCourse = ({context}) => {
  const [course, setCourse] = useState([])
  const [title, setTitle] = useState('')
  const [description, setDescription] = useState('')
- const [estimatedTime, setEstimatedTime] = useState("");
+ const [estimatedTime, setEstimatedTime] = useState('');
  const [materialsNeeded, setMaterialsNeeded] = useState('')
  const [errors, setErrors] = useState([])
 
@@ -72,6 +72,7 @@ const UpdateCourse = ({context}) => {
       } else if (name === "estimatedTime") {
         setEstimatedTime(value);
       } else if (name === "materialsNeeded") {
+        console.log(value)
         setMaterialsNeeded(value);
       } else {
         return;
