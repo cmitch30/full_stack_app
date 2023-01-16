@@ -7,7 +7,7 @@ export default class Data {
     requiresAuth = false,
     credentials = null
   ) {
-    const url = `http://localhost:5000/api${path}`;
+    const url = `https://fullstackapp-production-2547.up.railway.app${path}`;
 
     const options = {
       method,
