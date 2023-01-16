@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateCourse = ({context}) => {
 
+  //set up course state
  const navigate = useNavigate()
  const {id} = useParams()
  const [course, setCourse] = useState([])
@@ -12,6 +13,7 @@ const UpdateCourse = ({context}) => {
  const [materialsNeeded, setMaterialsNeeded] = useState('')
  const [errors, setErrors] = useState([])
 
+ //get course data by id
  useEffect(() => {
    context.data
      .getCourse(id)
@@ -27,6 +29,7 @@ const UpdateCourse = ({context}) => {
    // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
 
+ //update any course data
      const handleUpdate =  (e) => {
        e.preventDefault();
 
@@ -35,7 +38,7 @@ const UpdateCourse = ({context}) => {
          description,
          estimatedTime,
          materialsNeeded,
-       };
+       }
         context.data
          .updateCourse(
            id,
@@ -58,7 +61,7 @@ const UpdateCourse = ({context}) => {
 
 
 
- 
+ //handle changes to course data fields
     const handleChange = (e) => {
       e.preventDefault();
 
@@ -79,6 +82,7 @@ const UpdateCourse = ({context}) => {
       }
     };
 
+    // handle cancel button 
       const handleCancel = (e) => {
         e.preventDefault();
         navigate(`/courses/${id}`);
