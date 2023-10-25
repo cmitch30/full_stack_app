@@ -1,1 +1,1 @@
-# full_stack_app
+# Course Client
